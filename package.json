@@ -1,0 +1,16 @@
+{
+  "name": "ape-server",
+  "version": "1.0.0",
+  "description": "Server to relay information from a database to the web-plugin through simple fetch requests",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "redis": "^4.6.6"
+  }
+}
