@@ -1,12 +1,7 @@
 const redis = require('redis');
 const cors = require('cors');
-const { promisify } = require('util');
-
-const corsMiddleware = cors();
 
 module.exports = async (req, res) => {
-  corsMiddleware(req, res);
-
   //Instantiate redis client
   const client = redis.createClient({url: process.env.REDIS_URI});
 
