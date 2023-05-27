@@ -5,21 +5,19 @@ const { promisify } = require('util');
 const corsMiddleware = cors();
 
 module.exports = async (req, res) => {
-  await corsMiddleware(req, res);
+  corsMiddleware(req, res);
 
-  const client = redis.createClient(process.env.REDIS_URI);
-  const llrangeAsync = promisify(client.llrange).bind(client);
+  //Instantiate redis client
+  const client = redis.createClient({url: process.env.REDIS_URI});
 
   client.on("error", function(error) {
     console.error("Redis client could not connect:", error);
+    return res.status(500).json({ error: err.message });
   });
 
-  try {
-    const reply = await llrangeAsync('ape', 0, -1);
-    return res.json({ data: reply });
-  } catch(err) {
-    return res.status(500).json({ error: err.message });
-  } finally {
-    client.quit();
-  }
+  //Connect to redis
+  await client.connect();
+  const badges = await client.lRange('ape', 0, -1);
+  await client.disconnect();
+  return res.json({ data: reply });
 };
